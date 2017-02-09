@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Movie Sentiment Analysis
 
 Contoh aplikasi web untuk menganalisis sentiment sebuah movie berdasarkan komentar.
@@ -25,19 +24,7 @@ jalankan `sh initdb.sh` untuk membuat database kosong.
 python app.py untuk menjalankan aplikasi web.
 
 lanjutkan dengan membuka browser ke http://localhost:5000
-=======
-# Movie Reviews Sentiment Analysis
-####Proof of Concept Project
 
-This project consist of some section:
-
-1. **Machine Learning Model** (model-train)
-train and generate model to production.
-
-
-2. **Production Web Application** (web-app)
-this is webpage interface to play with sentiment analysis.
-
-#### Online Demo
-Inprogress...
->>>>>>> 52bebeb5ae87e6ee08d34bf236e67c93b3fcc511
+## File Model Machine Learning
+Untuk file model machine learning dapat di download:
+- [Simple Multinomial Naive Bayes (movieSA-MNNB.sav)](https://goo.gl/5wkKh7) 
