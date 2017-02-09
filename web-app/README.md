@@ -24,3 +24,7 @@ jalankan `sh initdb.sh` untuk membuat database kosong.
 python app.py untuk menjalankan aplikasi web.
 
 lanjutkan dengan membuka browser ke http://localhost:5000
+
+## File Model Machine Learning
+Untuk file model machine learning dapat di download:
+- [Simple Multinomial Naive Bayes (movieSA-MNNB.sav)](https://goo.gl/5wkKh7) 
