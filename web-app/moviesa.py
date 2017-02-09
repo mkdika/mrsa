@@ -30,7 +30,7 @@ def text_process(mess):
     nopunc = ''.join(nopunc)
     return [word for word in nopunc.split() if word.lower() not in stopwords.words('english')]
 
-filename = 'movieSA-model.sav'
+filename = 'movieSA-MNNB.sav'
 model = joblib.load(filename)
 
 def process_sentiment(sentiment):
