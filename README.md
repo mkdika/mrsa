@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Movie Sentiment Analysis
 
 Contoh aplikasi web untuk menganalisis sentiment sebuah movie berdasarkan komentar.
@@ -40,4 +39,3 @@ this is webpage interface to play with sentiment analysis.
 
 #### Online Demo
 Inprogress...
->>>>>>> 52bebeb5ae87e6ee08d34bf236e67c93b3fcc511
