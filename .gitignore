@@ -1,3 +1,6 @@
 /model-train/movie/pos/
 /model-train/movie/neg/
 /model-train/.ipynb_checkpoints
+/web-app/sentiment.db
+/web-app/movieSA-model.sav
+/web-app/__pycache__/
