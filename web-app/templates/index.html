@@ -4,35 +4,56 @@
 <div class="fluid-container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h1 class="text-center">Movie Sentiment</h1>
-            <h2 class="text-center">Rogue One: A Star Wars Story (2016)</h2>
-            <img src="https://resizing.flixster.com/ON0EiqZgAS3hp0wD_pVFnv6roGU=/206x305/v1.bTsxMjIzNzIxOTtwOzE3MjQxOzEyMDA7NzIwOzEwNjU" class="img-responsive center-block">
+            <h1 class="text-center">Movie Reviews</h1>
+            <h3 class="text-center">Sentiment Analysis Machine</h3>
+            <h2 class="text-center"><b>Rogue One: A Star Wars Story</b> (2016)
+                <small><a href="http://www.imdb.com/title/tt3748528" target="_blank">imdb</a></small>
+            </h2>
+            <img src="https://resizing.flixster.com/ON0EiqZgAS3hp0wD_pVFnv6roGU=/206x305/v1.bTsxMjIzNzIxOTtwOzE3MjQxOzEyMDA7NzIwOzEwNjU"
+                 class="img-responsive center-block">
+            <br/>
+            <h5 class="blockquote text-center">
+                <p class="mb-0"><i></i>
+                    Please write down your review about this movie in the box below, then click <b>POST</b>.<br/>
+                    The machine will be predict whether your review is <span class="label label-success">Positive Review</span>
+                    or <span class="label label-danger">Negative Review</span><br/>
+                </p>
+            </h5>
+            <br/>
             <form method="post" action="" class="form-horizontal">
                 {{ form.csrf_token }}
                 <div class="form-group">
                     <div class="col-md-8 col-md-offset-1">
-                        {{ form.sentiment(class="form-control", rows="3", placeholder="Sentiment") }}
+                        {{ form.sentiment(class="form-control", rows="5", placeholder="Your review here.") }}
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-primary">Post</button>
                     </div>
                 </div>
             </form>
+
+
             {% for d in data %}
             {% if d.pred is equalto 0 %}
-                {% set cls = "danger" %}
+            {% set cls = "danger" %}
+            {% set msg = "Negative Review" %}
             {% else %}
-                {% set cls = "success" %}
+            {% set cls = "success" %}
+            {% set msg = "Positive Review" %}
             {% endif %}
+
             <ul class="list-group">
                 <li class="list-group-item list-group-item-{{cls}}">
+                    <span class="label label-{{cls}}">{{msg}}</span>
                     {{ d.sentiment }}
-                    <a href="{{url_for('delete_sentiment', idx=d.id)}}">
-                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </a>
+                    <!--<a href="{{url_for('delete_sentiment', idx=d.id)}}">-->
+                    <!--<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>-->
+                    <!--</a>-->
                 </li>
             </ul>
+
             {% endfor %}
+
         </div>
     </div>
 </div>
