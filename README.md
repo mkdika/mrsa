@@ -21,6 +21,9 @@ download stopwords
 ## Untuk menjalankan aplikasi
 jalankan `sh initdb.sh` untuk membuat database kosong.
 
+untuk server mysql/mariadb bentuk database baru dan user sesuai dengan config.
+jalankan python initdb.py untuk membuat schema pada database mysql/mariadb.
+
 python app.py untuk menjalankan aplikasi web.
 
 lanjutkan dengan membuka browser ke http://localhost:5000
