@@ -5,6 +5,8 @@ import sqlite3
 import string
 from nltk.corpus import stopwords
 
+import numpy
+
 import forms
 
 def text_process(mess):
@@ -22,15 +24,30 @@ app.config.from_object('config.Development')
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect(app.config['DATABASE'])
-        db.row_factory = sqlite3.Row
+        if app.config['DB_TYPE'] == 'sqlite':
+            db = g._database = sqlite3.connect(app.config['DATABASE'])
+            db.row_factory = sqlite3.Row
+        elif app.config['DB_TYPE'] == 'mysql':
+            import pymysql
+            db = g._database = pymysql.connect(host=app.config['DB_HOST'],
+                                               user=app.config['DB_USER'],
+                                               password=app.config['DB_PASSWORD'],
+                                               db=app.config['DATABASE'],
+                                               cursorclass=pymysql.cursors.DictCursor)
     return db
 
 def query_db(query, args=(), one=False):
-    cur = get_db().execute(query, args)
-    rv = cur.fetchall()
-    cur.close()
-    return (rv[0] if rv else None) if one else rv
+    if app.config['DB_TYPE'] == 'sqlite':
+        cur = get_db().execute(query, args)
+        rv = cur.fetchall()
+        cur.close()
+        result = (rv[0] if rv else None) if one else rv
+    else:
+        with get_db().cursor() as cursor:
+            cursor.execute(query, args)
+            result = cursor.fetchone() if one else cursor.fetchall()
+    #return (rv[0] if rv else None) if one else rv
+    return result
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -46,14 +63,18 @@ def index():
         sentiment = request.form.get('sentiment', None).strip()
         if sentiment is None:
             return abort(400)
-        pred = process_sentiment(sentiment)
+        pred = numpy.asscalar(numpy.int16(process_sentiment(sentiment)))
 
         db = get_db()
         cur = db.cursor()
+        #cur.execute('insert into \
+        #        sentiment(sentiment, pred) \
+        #        values(:sentiment, :pred)', 
+        #        dict(sentiment=sentiment, pred=int(pred)))
         cur.execute('insert into \
                 sentiment(sentiment, pred) \
-                values(:sentiment, :pred)', 
-                dict(sentiment=sentiment, pred=int(pred)))
+                values(%s, %s)',
+                (sentiment, pred,))
         db.commit()
         return redirect(url_for('index'))
     return render_template('index.html', form=form, data=data)
@@ -63,7 +84,8 @@ def index():
 def delete_sentiment(idx):
     db = get_db()
     cur = db.cursor()
-    cur.execute("delete from sentiment where id=:id", dict(id=idx))
+    #cur.execute("delete from sentiment where id=:id", dict(id=idx))
+    cur.execute("delete from sentiment where id=%d", (idx,))
     db.commit()
     return redirect(url_for('index'))
 
